@@ -1,0 +1,1 @@
+"""EthixAI backend package."""
