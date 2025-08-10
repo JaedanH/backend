@@ -1,0 +1,22 @@
+name: Daily Cron Rescore
+
+on:
+  schedule:
+    - cron: "0 2 * * *"  # 02:00 UTC every day
+
+jobs:
+  trigger-rescore:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Invoke rescore endpoint
+        run: |
+          set -e
+          API_BASE="${{ secrets.API_BASE_URL }}"
+          API_KEY="${{ secrets.API_KEY }}"
+          curl -sSf -X POST "$API_BASE/score/cron" \
+            -H "x-api-key: $API_KEY" \
+            -H "Content-Length: 0" \
+            || {
+              echo "Failed to trigger rescore" >&2
+              exit 1
+            }
