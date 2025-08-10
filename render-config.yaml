@@ -1,0 +1,22 @@
+# Render configuration for EthixAI backend.
+# This file is optional but helps automate deployment on Render.com.
+# See https://render.com/docs/deploy-fastapi for more details.
+
+services:
+  - type: web
+    name: ethixai-backend
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port 10000"
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: API_KEY
+        sync: false
+      - key: CORS_ALLOW_ORIGINS
+        value: "https://your-readdy-domain.com"
